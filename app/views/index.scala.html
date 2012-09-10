@@ -8,11 +8,12 @@
     <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.5/mapbox.js'></script>
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+    <script src="@routes.Assets.at("javascripts/park.js")"></script>
     <style>
        #map { position:absolute; top:45px; bottom:0; width:100%; } 
     </style>
 </head> 
-<body> 
+<body onload="park.init()"> 
 
 <div data-role="page">
 
