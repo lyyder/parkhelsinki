@@ -22,5 +22,4 @@ case class Parkingmeter (
 
 object Parkingmeter extends ModelCompanion[Parkingmeter, ObjectId] {
   val dao = new SalatDAO[Parkingmeter, ObjectId](collection = mongoCollection("parkingmeters")) {}
-
 }
