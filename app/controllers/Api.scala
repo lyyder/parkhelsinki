@@ -1,29 +1,23 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
-import play.api.libs.json._
 import play.api.libs.json.Json._
 import models._
+import org.bson.types.ObjectId
 
 object Api extends Controller {
   
-  def parkingmeter = Action {
-    val meter = toJson(
-      Map(
-        "id" -> toJson("dummy meter id"),
-        "lat" -> toJson(22.2),
-        "lng" -> toJson(33.3)
-      )
-    )
+  def parkingmeters = Action {
+    val meters = Parkingmeter.findAll();
 
-    Ok(meter)
+
+    Ok(toJson(meters.toList))
   }
 
   def newMeter = Action {
-    val meter = Parkingmeter(
-      "1234", "address", 2, "chargetime", "max park time", "additional", 20.2, 30.3)
-    Parkingmeter.insert(meter)
+
+   // val meter = Parkingmeter(new ObjectId, "1234", "address");
+   // Parkingmeter.insert(meter)
 
     Ok("new meter")
   }
