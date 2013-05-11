@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -9,13 +9,14 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       // play-salat
-      "se.radley" %% "play-plugins-salat" % "1.1"
+      "se.radley" %% "play-plugins-salat" % "1.2"
     )
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
+  val main = play.Project(appName, appVersion, appDependencies).settings(
       // play-salat
       routesImport += "se.radley.plugin.salat.Binders._",
-      templatesImport += "org.bson.types.ObjectId"
+      templatesImport += "org.bson.types.ObjectId",
+      resolvers += Resolver.sonatypeRepo("snapshots")
     )
 
 }
