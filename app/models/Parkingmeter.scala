@@ -9,39 +9,35 @@ import play.api.libs.json.Json._
 import mongoContext._
 
 case class Parkingmeter (
-//  _id: ObjectId,
-//  id: String,
-  address: String
-//  zone: Int
-//  chargeTime: String,
-//  maxParkingTime: String,
-//  additionalPaymentMethod: String,
-//  lat: Double,
-//  lng: Double
+  id: String,
+  address: String,
+  zone: String,
+  chargeTime: String,
+  maxParkingTime: String,
+  additionalPaymentMethod: String,
+  lat: Double,
+  lng: Double
 )
 
-//object Parkingmeter extends ParkingmeterDAO with ParkingmeterJson
+object Parkingmeter extends ParkingmeterDAO with ParkingmeterJson
 
-object Parkingmeter extends ModelCompanion[Parkingmeter, ObjectId] with ParkingmeterJson {
+trait ParkingmeterDAO extends ModelCompanion[Parkingmeter, ObjectId] {
   val dao = new SalatDAO[Parkingmeter, ObjectId](collection = mongoCollection("parkingmeters")) {}
 }
 
 trait ParkingmeterJson {
 
-  //  def asSuccessJson = JsObject(Seq("success" -> JsBoolean(true), "message" -> JsString(str))) // (*)
-
   implicit val parkingmeterJsonWrite = new Writes[Parkingmeter] {
     def writes(p: Parkingmeter): JsValue = {
-      toJson(
-        Map(
-        "address" -> p.address
-//        "zone" -> JsNumber(p.zone)
-//        "chargeTime" -> p.chargeTime,
-//        "maxParkingTime" -> p.maxParkingTime,
-//        "additionalPaymentMethod" -> p.additionalPaymentMethod,
-//        "lat" -> p.lat,
-//        "lng" -> p.lng
-        )
+      obj(
+        "id" -> p.id,
+        "address" -> p.address,
+        "zone" -> p.zone,
+        "chargeTime" -> p.chargeTime,
+        "maxParkingTime" -> p.maxParkingTime,
+        "additionalPaymentMethod" -> p.additionalPaymentMethod,
+        "lat" -> p.lat,
+        "lng" -> p.lng
       )
     }
   }
