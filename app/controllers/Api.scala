@@ -9,9 +9,12 @@ object Api extends Controller {
   
   def parkingmeters = Action {
     val meters = Parkingmeter.findAll();
-
-
     Ok(toJson(meters.toList))
+  }
+
+  def parkingmeter(id: String) = Action {
+    val meter = Parkingmeter.findOneById(id)
+    Ok(toJson(meter))
   }
 
   def newMeter = Action {

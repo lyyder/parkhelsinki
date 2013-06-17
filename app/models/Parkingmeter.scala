@@ -2,6 +2,7 @@ package models
 
 import play.api.Play.current
 import com.novus.salat.dao._
+import com.novus.salat.annotations._
 import com.mongodb.casbah.Imports._
 import se.radley.plugin.salat._
 import play.api.libs.json._
@@ -9,7 +10,7 @@ import play.api.libs.json.Json._
 import mongoContext._
 
 case class Parkingmeter (
-  id: String,
+  @Key("_id") id: String,
   address: String,
   zone: String,
   chargeTime: String,
@@ -21,8 +22,8 @@ case class Parkingmeter (
 
 object Parkingmeter extends ParkingmeterDAO with ParkingmeterJson
 
-trait ParkingmeterDAO extends ModelCompanion[Parkingmeter, ObjectId] {
-  val dao = new SalatDAO[Parkingmeter, ObjectId](collection = mongoCollection("parkingmeters")) {}
+trait ParkingmeterDAO extends ModelCompanion[Parkingmeter, String] {
+  val dao = new SalatDAO[Parkingmeter, String](collection = mongoCollection("parkingmeters")) {}
 }
 
 trait ParkingmeterJson {
