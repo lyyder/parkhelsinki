@@ -16,9 +16,10 @@ case class Parkingmeter (
   chargeTime: String,
   maxParkingTime: String,
   additionalPaymentMethod: String,
-  lat: Double,
-  lng: Double
+  loc : Location
 )
+
+case class Location (@Key("type") locationType: String, coordinates: List[Double])
 
 object Parkingmeter extends ParkingmeterDAO with ParkingmeterJson
 
@@ -37,10 +38,9 @@ trait ParkingmeterJson {
         "chargeTime" -> p.chargeTime,
         "maxParkingTime" -> p.maxParkingTime,
         "additionalPaymentMethod" -> p.additionalPaymentMethod,
-        "lat" -> p.lat,
-        "lng" -> p.lng
+        "lng" -> p.loc.coordinates(0),
+        "lat" -> p.loc.coordinates(1)
       )
     }
   }
-
 }
