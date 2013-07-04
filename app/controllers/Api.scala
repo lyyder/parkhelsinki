@@ -10,8 +10,10 @@ object Api extends Controller {
   def parkingmeters(lng: Option[Double], lat: Option[Double],
                     maxDistance: Option[Int], limit: Option[Int]) = Action {
 
-    val meters = Parkingmeter.findAll();
-    Ok(toJson(meters.toList))
+    (lng, lat, maxDistance, limit) match {
+      case (Some(lng), Some(lat), Some(maxDistance), Some(limit)) => Ok(toJson(Parkingmeter.findClosest(lng, lat, maxDistance, limit).toList))
+      case _ => Ok(toJson(Parkingmeter.findAll().toList))
+    }
   }
 
   def parkingmeter(id: String) = Action {

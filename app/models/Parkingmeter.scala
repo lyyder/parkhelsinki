@@ -9,22 +9,34 @@ import play.api.libs.json._
 import play.api.libs.json.Json._
 import mongoContext._
 
-case class Parkingmeter (
-  @Key("_id") id: String,
-  address: String,
-  zone: String,
-  chargeTime: String,
-  maxParkingTime: String,
-  additionalPaymentMethod: String,
-  loc : Location
-)
+case class Parkingmeter(
+                         @Key("_id") id: String,
+                         address: String,
+                         zone: String,
+                         chargeTime: String,
+                         maxParkingTime: String,
+                         additionalPaymentMethod: String,
+                         loc: Location
+                         )
 
-case class Location (@Key("type") locationType: String, coordinates: List[Double])
+case class Location(@Key("type") locationType: String, coordinates: List[Double])
 
 object Parkingmeter extends ParkingmeterDAO with ParkingmeterJson
 
 trait ParkingmeterDAO extends ModelCompanion[Parkingmeter, String] {
   val dao = new SalatDAO[Parkingmeter, String](collection = mongoCollection("parkingmeters")) {}
+
+  def findClosest(lng: Double, lat: Double, maxDistance: Int, limit: Int) = {
+    val query = MongoDBObject("loc" ->
+      MongoDBObject("$near" ->
+        MongoDBObject("$geometry" ->
+          MongoDBObject("type" -> "Point", "coordinates" ->(lng, lat))
+        ),
+        "$maxDistance" -> maxDistance
+      )
+    )
+    dao.find(query).limit(limit);
+  }
 }
 
 trait ParkingmeterJson {
