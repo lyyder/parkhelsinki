@@ -7,7 +7,9 @@ import org.bson.types.ObjectId
 
 object Api extends Controller {
   
-  def parkingmeters = Action {
+  def parkingmeters(lng: Option[Double], lat: Option[Double],
+                    maxDistance: Option[Int], limit: Option[Int]) = Action {
+
     val meters = Parkingmeter.findAll();
     Ok(toJson(meters.toList))
   }

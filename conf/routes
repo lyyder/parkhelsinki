@@ -5,8 +5,8 @@
 # Home page
 GET     /                           controllers.Application.index
 
-# API / parkingmeter
-GET     /parkingmeters              controllers.Api.parkingmeters
+# API
+GET     /parkingmeters              controllers.Api.parkingmeters(lng: Option[Double], lat: Option[Double], maxDistance: Option[Int], limit: Option[Int])
 GET     /parkingmeters/:id          controllers.Api.parkingmeter(id: String)
 GET     /new                        controllers.Api.newMeter
 
