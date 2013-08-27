@@ -14,7 +14,7 @@ var park = (function () {
                             limit: 1
                         },
                         function (data) {
-                            drawOnMap(data[0]);
+                            drawOnMap({"lng": position.coords.longitude, "lat": position.coords.latitude}, data[0]);
                         });
                 },
                 function () {
@@ -24,19 +24,32 @@ var park = (function () {
         }
     }
 
-    function drawOnMap(parkingmeter) {
+    function drawOnMap(currentLocation, parkingmeter) {
         L.mapbox.markerLayer(
-            {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [parkingmeter.lng, parkingmeter.lat]
+            [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [currentLocation.lng, currentLocation.lat]
+                    },
+                    properties: {
+                        title: "Me!",
+                        "marker-symbol": "pitch"
+                    }
                 },
-                properties: {
-                    title: parkingmeter.address
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [parkingmeter.lng, parkingmeter.lat]
+                    },
+                    properties: {
+                        title: parkingmeter.address,
+                        "marker-symbol": "circle-stroked"
+                    }
                 }
-            }
-
+            ]
         ).addTo(map);
     }
 
