@@ -8,7 +8,6 @@ GET     /                           controllers.Application.index
 # API
 GET     /parkingmeters              controllers.Api.parkingmeters(lng: Option[Double], lat: Option[Double], maxDistance: Option[Int], limit: Option[Int])
 GET     /parkingmeters/:id          controllers.Api.parkingmeter(id: String)
-GET     /new                        controllers.Api.newMeter
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

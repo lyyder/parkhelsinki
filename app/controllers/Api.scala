@@ -20,13 +20,4 @@ object Api extends Controller {
     val meter = Parkingmeter.findOneById(id)
     Ok(toJson(meter))
   }
-
-  def newMeter = Action {
-
-   // val meter = Parkingmeter(new ObjectId, "1234", "address");
-   // Parkingmeter.insert(meter)
-
-    Ok("new meter")
-  }
-
 }
