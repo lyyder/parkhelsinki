@@ -5,23 +5,32 @@ var park = (function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function (position) {
-                    map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 15);
-                    $.get("/parkingmeters",
-                        {
-                            lng: position.coords.longitude,
-                            lat: position.coords.latitude,
-                            maxDistance: 1000,
-                            limit: 1
-                        },
-                        function (data) {
-                            drawOnMap({"lng": position.coords.longitude, "lat": position.coords.latitude}, data[0]);
-                        });
+                    resolveParkingmeters(position.coords.longitude, position.coords.latitude);
                 },
                 function () {
-                    // location error function
+                    // position failed..
                 }
             );
         }
+    }
+
+    function resolveParkingmeters(longitude, latitude) {
+        map.setView(new L.LatLng(latitude, longitude), 15);
+        $.get("/parkingmeters",
+            {
+                lng: longitude,
+                lat: latitude,
+                maxDistance: 1000,
+                limit: 1
+            },
+            function (data) {
+                if (data.length == 0) {
+                    // no machines found in given reach
+                }
+                else {
+                    drawOnMap({"lng": longitude, "lat": latitude}, data[0]);
+                }
+            });
     }
 
     function drawOnMap(currentLocation, parkingmeter) {
